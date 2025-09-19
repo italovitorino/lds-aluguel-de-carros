@@ -3,7 +3,9 @@ package com.lds.aluguel_carros.model;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.lds.aluguel_carros.dto.cliente.ClienteResponseDTO;
 import com.lds.aluguel_carros.enums.ETipoUsuario;
+import com.lds.aluguel_carros.model.base.Base;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -13,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Base {
 	
 	private static final int MAX_EMPREGOS = 3;
 
@@ -53,5 +55,24 @@ public class Cliente extends Usuario {
 
 	public double rendimentos() {
 		return empregos.stream().mapToDouble(x -> x.rendimento()).sum();
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	@Override
+	public ClienteResponseDTO toDto() {
+		return new ClienteResponseDTO(
+			id,
+			nome,
+			endereco,
+			rg,
+			cpf
+		);
 	}
 }

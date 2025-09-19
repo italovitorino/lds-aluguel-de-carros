@@ -20,10 +20,10 @@ public abstract class Usuario {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 
 	@Column(nullable = false, unique = true, length = 50)
-	private String login;
+	protected String login;
 
 	@Column(nullable = false, length = 128)
 	private String senha;
@@ -38,5 +38,9 @@ public abstract class Usuario {
 		this.login = login;
 		this.senha = senha;
 		this.tipoUsuario = tipoUsuario;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
 	}
 }
