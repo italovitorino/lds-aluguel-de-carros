@@ -37,8 +37,9 @@ public class AutomovelController {
     }
 
     @GetMapping
-    public ResponseEntity<Void> buscarTodos() {
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<List<AutomovelResponseDTO>> buscarTodos() {
+        List<AutomovelResponseDTO> response = service.buscarTodos();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PutMapping("/{id}")
@@ -51,6 +52,12 @@ public class AutomovelController {
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         service.deletar(id);
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PutMapping("/{id}/finalizar")
+    public ResponseEntity<AutomovelResponseDTO> finalizarAluguel(@PathVariable Long id) {
+        AutomovelResponseDTO response = service.finalizarAluguel(id);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     

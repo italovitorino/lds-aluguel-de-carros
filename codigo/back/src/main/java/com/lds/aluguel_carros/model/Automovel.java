@@ -52,6 +52,10 @@ public class Automovel implements Base {
         this.status = EStatusAutomovel.DISPONIVEL;
     }
 
+    public void iniciarAluguel() {
+        this.status = EStatusAutomovel.ALUGADO;
+    }
+
     public double calcularAluguel(LocalDateTime inicio, LocalDateTime termino){
         long dias = java.time.Duration.between(inicio, termino).toDays();
         return dias * this.valorDiaria;

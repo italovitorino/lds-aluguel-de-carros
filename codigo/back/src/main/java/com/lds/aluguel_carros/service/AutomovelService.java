@@ -42,6 +42,11 @@ public class AutomovelService {
         return auto.toDto();
     }
 
+    public java.util.List<AutomovelResponseDTO> buscarTodos() {
+        java.util.List<Automovel> automoveis = repository.findAll();
+        return automoveis.stream().map(Automovel::toDto).toList();
+    }
+
     @Transactional
     public void atualizar(Long id, AutomovelCreateRequestDTO dto) {
         Automovel auto = buscarEntidade(id);
@@ -67,10 +72,19 @@ public class AutomovelService {
     }
 
     @Transactional
-    public void finalizarAluguel(Long id) {
+    public AutomovelResponseDTO finalizarAluguel(Long id) {
         Automovel auto = buscarEntidade(id);
         auto.finalizarAluguel();
-        repository.save(auto);
+        auto = repository.save(auto);
+        return auto.toDto();
+    }
+
+    @Transactional
+    public AutomovelResponseDTO iniciarAluguel(Long id) {
+        Automovel auto = buscarEntidade(id);
+        auto.iniciarAluguel();
+        auto = repository.save(auto);
+        return auto.toDto();
     }
 
 }
