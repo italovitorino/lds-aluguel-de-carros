@@ -8,13 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lds.aluguel_carros.dto.cliente.AutomovelCreateRequestDTO;
 import com.lds.aluguel_carros.dto.cliente.AutomovelResponseDTO;
-import com.lds.aluguel_carros.dto.cliente.ClienteResponseDTO;
 import com.lds.aluguel_carros.service.AutomovelService;
 
 @RestController
@@ -31,8 +31,8 @@ public class AutomovelController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<AutomovelResponseDTO>> buscarPeloId(@PathVariable Long id) {
-        List<AutomovelResponseDTO> response = service.buscar(id);
+    public ResponseEntity<AutomovelResponseDTO> buscarPeloId(@PathVariable Long id) {
+        AutomovelResponseDTO response = service.buscar(id);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
@@ -40,4 +40,19 @@ public class AutomovelController {
     public ResponseEntity<Void> buscarTodos() {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> atualizar(@PathVariable Long id, @RequestBody AutomovelCreateRequestDTO dto) {
+        service.atualizar(id, dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    
+
 }
