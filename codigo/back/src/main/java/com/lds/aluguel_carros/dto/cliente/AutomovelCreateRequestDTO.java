@@ -17,5 +17,9 @@ public record AutomovelCreateRequestDTO(
     String placa, // XXX-0000
 
     @NotBlank(message = "O valor da diária é obrigatório")
-    double valorDiaria
+    double valorDiaria,
+
+    @NotBlank(message = "O status é obrigatório")
+    String status
+
 ) {}

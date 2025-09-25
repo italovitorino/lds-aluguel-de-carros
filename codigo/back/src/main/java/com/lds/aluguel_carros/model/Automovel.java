@@ -111,14 +111,15 @@ public class Automovel implements Base {
 
     @Override
     public AutomovelResponseDTO toDto() {
+        String status = this.status == null ? EStatusAutomovel.DISPONIVEL.name() : this.status.name();
         return new AutomovelResponseDTO(
             id,
             matricula,
             ano,
             modelo,
             placa,
-            valorDiaria
+            valorDiaria,
+            status
         );
     }
-
 }

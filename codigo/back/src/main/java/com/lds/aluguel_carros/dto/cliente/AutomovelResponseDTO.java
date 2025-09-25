@@ -6,5 +6,6 @@ public record AutomovelResponseDTO (
     int ano,
     String modelo,
     String placa,
-    double valorDiaria)
+    double valorDiaria,
+    String status)
 {}
