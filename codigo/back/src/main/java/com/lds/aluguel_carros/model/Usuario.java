@@ -41,6 +41,10 @@ public abstract class Usuario {
 		this.tipoUsuario = tipoUsuario;
 	}
 
+	public Long getId() {
+		return id;
+	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}

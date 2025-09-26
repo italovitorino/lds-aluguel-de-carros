@@ -32,7 +32,7 @@ export default function TabelaPedidos() {
     const { data, refetch } = useQuery<any[]>({
         queryKey: ['pedidos'],
         queryFn: async () => {
-            const response = await api.get('api/pedidos');
+            const response = await api.get('/api/pedidos');
             return response.data; 
         },
     })

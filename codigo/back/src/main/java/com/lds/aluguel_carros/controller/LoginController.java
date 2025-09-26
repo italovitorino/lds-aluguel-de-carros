@@ -6,14 +6,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/login")
 public class LoginController {
 
@@ -24,8 +22,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> login(@RequestBody LoginDTO dto, HttpServletRequest request, HttpServletResponse response) {
-        service.login(dto, request, response);
-        return ResponseEntity.status(HttpStatus.OK).build();
+    public ResponseEntity<Long> login(@RequestBody LoginDTO dto, HttpServletRequest request, HttpServletResponse response) {
+        Long id = service.login(dto, request, response);
+        return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 }
