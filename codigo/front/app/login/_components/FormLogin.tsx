@@ -38,8 +38,11 @@ export default function FormLogin() {
             },
         ).then((respose) => {
             console.log(respose)
-            if(respose.status == 200)
+            if(respose.status == 200){
+                console.log(respose.data)
+                localStorage.setItem("usuarioId", respose.data)
                 router.push("/pedidos")
+            }
         })
     }
 
