@@ -22,8 +22,8 @@ export interface AutomovelResponseDTO {
 
 const pedidoSchema = z.object({
   veiculo: z.string().refine(val => val !== "", { message: "Informe um veículo." }),
-  inicio: z.iso.date().nullable().refine(val => typeof val !== "string", { message: "Informe uma data." }),
-  termino: z.iso.date().nullable().refine(val => typeof val !== "string", { message: "Informe uma data." }),
+  inicio: z.string().nullable(),
+  termino: z.string().nullable(),
   comCredito: z.boolean()
 });
 
@@ -40,19 +40,34 @@ export default function FormPedido() {
     });
 
     const { data: veiculos, refetch } = useQuery<AutomovelResponseDTO[]>({
-            queryKey: ['pedidos'],
-            queryFn: async () => {
-                const response = await api.get('http://localhost:8080/api/automoveis');
-                console.log(response.data)
-                return response.data; 
-            },
-        })
+        queryKey: ['automoveis'],
+        queryFn: async () => {
+            const response = await api.get('http://localhost:8080/api/automoveis');
+            console.log(response.data)
+            return response.data; 
+        },
+    })
+
+    const handleSubmit = async () => {
+      const data = form.getValues();
+      const usuarioId = localStorage.getItem('usuarioId')
+      const response = await api.post('http://localhost:8080/api/pedidos',
+        {
+          idCliente: usuarioId,
+          idAutomovel: data.veiculo,
+          inicio: data.inicio,
+          termino: data.termino,
+          credito: data.comCredito
+        }
+      );
+      console.log(response.data)
+    }
 
   return (
     <>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(() => console.log(form.getValues()))}
+            onSubmit={form.handleSubmit(handleSubmit)}
             className="flex flex-col justify-center items-center-safe gap-y-4 w-md"
           >
             <h1 className="font-bold text-2xl">Novo pedido</h1>
