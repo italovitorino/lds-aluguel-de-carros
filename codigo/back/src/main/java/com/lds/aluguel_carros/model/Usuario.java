@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 @Table(name = "usuarios")
@@ -43,4 +44,8 @@ public abstract class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+
+    public boolean isSenhaCorreta(String senhaEnviada, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(senhaEnviada, this.senha);
+    }
 }
