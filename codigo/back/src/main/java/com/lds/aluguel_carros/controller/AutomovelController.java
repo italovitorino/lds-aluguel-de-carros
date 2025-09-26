@@ -1,5 +1,6 @@
 package com.lds.aluguel_carros.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,8 +64,8 @@ public class AutomovelController {
     }
 
     @PutMapping("/{id}/iniciar")
-    public ResponseEntity<AutomovelResponseDTO> iniciarAluguel(@PathVariable Long id) {
-        AutomovelResponseDTO response = service.iniciarAluguel(id);
+    public ResponseEntity<AutomovelResponseDTO> iniciarAluguel(@PathVariable Long id, @RequestBody LocalDateTime dataHoraDevolucao) {
+        AutomovelResponseDTO response = service.iniciarAluguel(id, dataHoraDevolucao);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 

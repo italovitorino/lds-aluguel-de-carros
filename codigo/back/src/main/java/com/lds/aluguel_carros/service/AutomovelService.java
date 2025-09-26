@@ -72,17 +72,26 @@ public class AutomovelService {
     @Transactional
     public AutomovelResponseDTO finalizarAluguel(Long id) {
         Automovel auto = buscarEntidade(id);
+        if (auto.getStatus().toString().equals("DISPONIVEL")) {
+            throw new RuntimeException("O automóvel já está disponível.");
+        }
         auto.finalizarAluguel();
         auto = repository.save(auto);
         return auto.toDto();
     }
 
     @Transactional
-    public AutomovelResponseDTO iniciarAluguel(Long id) {
+    public AutomovelResponseDTO iniciarAluguel(Long id, LocalDateTime dataHoraDevolucao) {
         Automovel auto = buscarEntidade(id);
-        auto.iniciarAluguel();
-        auto = repository.save(auto);
-        return auto.toDto();
+        if (dataHoraDevolucao.isBefore(LocalDateTime.now())) {
+            throw new RuntimeException("A data e hora de devolução deve ser futura.");
+        } else if (auto.getStatus().toString().equals("ALUGADO")) {
+            throw new RuntimeException("O automóvel já está alugado.");
+        } else { 
+            auto.iniciarAluguel();
+            auto = repository.save(auto);
+            return auto.toDto();
+        }
     }
 
 }
