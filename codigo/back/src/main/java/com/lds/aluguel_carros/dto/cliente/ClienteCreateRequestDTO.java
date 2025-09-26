@@ -24,4 +24,5 @@ public record ClienteCreateRequestDTO(
     @NotBlank(message = "O CPF é obrigatório")
     @CPF(message = "O CPF informado é inválido")
     String cpf
+
 ) {}
