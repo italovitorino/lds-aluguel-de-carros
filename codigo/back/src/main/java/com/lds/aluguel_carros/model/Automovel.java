@@ -2,9 +2,9 @@ package com.lds.aluguel_carros.model;
 
 import java.time.LocalDateTime;
 
-import com.lds.aluguel_carros.dto.cliente.AutomovelResponseDTO;
+import com.lds.aluguel_carros.dto.automovel.AutomovelResponseDTO;
 import com.lds.aluguel_carros.enums.EStatusAutomovel;
-import com.lds.aluguel_carros.model.base.Base;
+import com.lds.aluguel_carros.model.base.Dto;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "automoveis")
-public class Automovel implements Base {
+public class Automovel implements Dto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +41,8 @@ public class Automovel implements Base {
     private EStatusAutomovel status;
 
     public Automovel() {
-        super();
     }
+    public Automovel(Long id) {}
 
     public Automovel(String matricula, int ano, String modelo, String placa, double valorDiaria) {
         this.matricula = matricula;
@@ -53,12 +53,16 @@ public class Automovel implements Base {
         this.status = EStatusAutomovel.DISPONIVEL;
     }
 
-    public void finalizarAluguel() {
-        this.status = EStatusAutomovel.DISPONIVEL;
-    }
-
     public void iniciarAluguel() {
         this.status = EStatusAutomovel.ALUGADO;
+    }
+
+    public void reservar() {
+        this.status = EStatusAutomovel.RESERVADO;
+    }
+
+    public void finalizarAluguel() {
+        this.status = EStatusAutomovel.DISPONIVEL;
     }
 
     public double calcularAluguel(LocalDateTime inicio, LocalDateTime termino){

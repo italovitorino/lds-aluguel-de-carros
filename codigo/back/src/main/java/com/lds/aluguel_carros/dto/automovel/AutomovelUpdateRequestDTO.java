@@ -1,4 +1,4 @@
-package com.lds.aluguel_carros.dto.cliente;
+package com.lds.aluguel_carros.dto.automovel;
 
 public record AutomovelUpdateRequestDTO(
     String matricula,

@@ -1,5 +1,5 @@
 package com.lds.aluguel_carros.model.base;
 
-public interface Base<T> {
+public interface Dto<T> {
 	T toDto();
 }

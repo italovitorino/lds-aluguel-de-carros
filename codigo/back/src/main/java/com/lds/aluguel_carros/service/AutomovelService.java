@@ -6,14 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lds.aluguel_carros.dto.cliente.AutomovelCreateRequestDTO;
-import com.lds.aluguel_carros.dto.cliente.AutomovelResponseDTO;
+import com.lds.aluguel_carros.dto.automovel.AutomovelCreateRequestDTO;
+import com.lds.aluguel_carros.dto.automovel.AutomovelResponseDTO;
 import com.lds.aluguel_carros.model.Automovel;
 import com.lds.aluguel_carros.repository.AutomovelRepository;
 
 @Service
 public class AutomovelService {
-    
 
     @Autowired
     private AutomovelRepository repository;

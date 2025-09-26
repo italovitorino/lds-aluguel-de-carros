@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.lds.aluguel_carros.dto.cliente.ClienteResponseDTO;
 import com.lds.aluguel_carros.enums.ETipoUsuario;
-import com.lds.aluguel_carros.model.base.Base;
+import com.lds.aluguel_carros.model.base.Dto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente extends Usuario implements Base {
+public class Cliente extends Usuario implements Dto {
 	
 	private static final int MAX_EMPREGOS = 3;
 
