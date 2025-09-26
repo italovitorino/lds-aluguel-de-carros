@@ -7,7 +7,7 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import api from "@/lib/axios";
 
 export interface AutomovelResponseDTO {
@@ -48,6 +48,8 @@ export default function FormPedido() {
         },
     })
 
+    const queryClient = useQueryClient()
+
     const handleSubmit = async () => {
       const data = form.getValues();
       const usuarioId = localStorage.getItem('usuarioId')
@@ -55,12 +57,17 @@ export default function FormPedido() {
         {
           idCliente: usuarioId,
           idAutomovel: data.veiculo,
-          inicio: data.inicio,
-          termino: data.termino,
+          inicio: data.inicio ? `${data.inicio}T00:00:00` : null,
+          termino: data.termino ? `${data.termino}T00:00:00` : null,
           credito: data.comCredito
         }
-      );
-      console.log(response.data)
+      ).then((response) => {
+        console.log(response.data)
+        if(response.status === 200){
+          queryClient.invalidateQueries({ queryKey: ['pedidos'] })
+          form.reset()
+        } 
+      });
     }
 
   return (
@@ -88,7 +95,7 @@ export default function FormPedido() {
                       <SelectContent>
                         {veiculos?.map((veiculo) => (
                           <SelectItem key={veiculo.id} value={veiculo.id.toString()}>
-                            {veiculo.modelo} - {veiculo.placa}
+                            {veiculo.modelo} - {veiculo.placa} - {veiculo.valorDiaria}
                           </SelectItem>
                         ))}
                       </SelectContent>
