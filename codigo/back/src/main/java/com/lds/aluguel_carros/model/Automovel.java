@@ -6,12 +6,7 @@ import com.lds.aluguel_carros.dto.automovel.AutomovelResponseDTO;
 import com.lds.aluguel_carros.enums.EStatusAutomovel;
 import com.lds.aluguel_carros.model.base.Dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "automoveis")
@@ -38,6 +33,7 @@ public class Automovel implements Dto {
     private double valorDiaria;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private EStatusAutomovel status;
 
     public Automovel() {
