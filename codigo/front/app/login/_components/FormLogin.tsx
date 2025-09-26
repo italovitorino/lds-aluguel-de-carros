@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import api from "@/lib/axios";
+import { useRouter } from "next/navigation";
 
 const loginSchema = z.object({
   login: z.string().refine(val => val !== "", { message: "Informe um login válido." }),
@@ -14,6 +15,7 @@ const loginSchema = z.object({
 
 export default function FormLogin() {
 
+    const router = useRouter()
     const form = useForm<z.infer<typeof loginSchema>>({
         mode: 'onBlur',
         resolver: zodResolver(loginSchema),
@@ -25,14 +27,27 @@ export default function FormLogin() {
 
     const handleSubmit = async () => {
         const data = form.getValues() 
-        api.post("/login", {data})
+        console.log(data)
+        await api.post("http://localhost:8080/api/login", 
+            data,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json",
+                },
+            },
+        ).then((respose) => {
+            console.log(respose)
+            if(respose.status == 200)
+                router.push("/pedidos")
+        })
     }
 
     return (
         <>
             <Form {...form}>
             <form
-                onSubmit={form.handleSubmit(() => console.log(form.getValues()))}
+                onSubmit={form.handleSubmit(handleSubmit)}
                 className="flex flex-col justify-center items-center-safe gap-y-4 w-md"
             >
                 <h1 className="font-bold text-2xl">Bem-Vindo</h1>
