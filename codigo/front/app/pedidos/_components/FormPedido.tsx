@@ -39,11 +39,10 @@ export default function FormPedido() {
         }
     });
 
-    const { data: veiculos, refetch } = useQuery<AutomovelResponseDTO[]>({
+    const { data: veiculos } = useQuery<AutomovelResponseDTO[]>({
         queryKey: ['automoveis'],
         queryFn: async () => {
             const response = await api.get('http://localhost:8080/api/automoveis');
-            console.log(response.data)
             return response.data; 
         },
     })
@@ -53,7 +52,7 @@ export default function FormPedido() {
     const handleSubmit = async () => {
       const data = form.getValues();
       const usuarioId = localStorage.getItem('usuarioId')
-      const response = await api.post('http://localhost:8080/api/pedidos',
+      await api.post('http://localhost:8080/api/pedidos',
         {
           idCliente: usuarioId,
           idAutomovel: data.veiculo,
@@ -62,7 +61,6 @@ export default function FormPedido() {
           credito: data.comCredito
         }
       ).then((response) => {
-        console.log(response.data)
         if(response.status === 200){
           queryClient.invalidateQueries({ queryKey: ['pedidos'] })
           form.reset()
@@ -75,33 +73,35 @@ export default function FormPedido() {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="flex flex-col justify-center items-center-safe gap-y-4 w-md"
+            className="flex flex-col justify-center items-center gap-y-6 w-full max-w-lg bg-white p-8 rounded-2xl shadow-xl"
           >
-            <h1 className="font-bold text-2xl">Novo pedido</h1>
+            <h1 className="font-bold text-3xl text-[#1E3A5F]">Novo Pedido</h1>
             <FormField
               control={form.control}
               name="veiculo"
               render={({ field }) => (
-                <FormItem className="align-baseline w-full">
-                  <FormLabel>Veículo</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-[#1E3A5F] font-semibold">Veículo</FormLabel>
                   <FormControl>
                     <Select
                       value={field.value}
                       onValueChange={field.onChange}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-xl border-[#1E3A5F] focus:ring-[#FBBF24]">
                         <SelectValue placeholder="Selecione um veículo" />
                       </SelectTrigger>
                       <SelectContent>
-                        {veiculos?.map((veiculo) => (
-                          <SelectItem key={veiculo.id} value={veiculo.id.toString()}>
-                            {veiculo.modelo} - {veiculo.placa} - {veiculo.valorDiaria}
-                          </SelectItem>
-                        ))}
+                        <SelectGroup>
+                          {veiculos?.map((veiculo) => (
+                            <SelectItem key={veiculo.id} value={veiculo.id.toString()}>
+                              {veiculo.modelo} - {veiculo.placa} - R$ {veiculo.valorDiaria}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500" />
                 </FormItem>
               )}
             />
@@ -109,17 +109,18 @@ export default function FormPedido() {
               control={form.control}
               name="inicio"
               render={({ field }) => (
-                <FormItem className="align-baseline w-full">
-                  <FormLabel>Data de início</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-[#1E3A5F] font-semibold">Data de início</FormLabel>
                   <FormControl>
                     <Input
                       value={String(field.value)}
                       onChange={field.onChange}
                       type="date"
                       placeholder="Data de início"
+                      className="rounded-xl border-[#1E3A5F] focus:ring-[#FBBF24]"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500" />
                 </FormItem>
               )}
             />
@@ -127,17 +128,18 @@ export default function FormPedido() {
               control={form.control}
               name="termino"
               render={({ field }) => (
-                <FormItem className="align-baseline w-full">
-                  <FormLabel>Data de início</FormLabel>
+                <FormItem className="w-full">
+                  <FormLabel className="text-[#1E3A5F] font-semibold">Data de término</FormLabel>
                   <FormControl>
                     <Input
                       value={String(field.value)}
                       onChange={field.onChange}
                       type="date"
-                      placeholder="Data"
+                      placeholder="Data de término"
+                      className="rounded-xl border-[#1E3A5F] focus:ring-[#FBBF24]"
                     />
                   </FormControl>
-                  <FormMessage />
+                  <FormMessage className="text-red-500" />
                 </FormItem>
               )}
             />
@@ -145,23 +147,24 @@ export default function FormPedido() {
               control={form.control}
               name="comCredito"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md p-4">
+                <FormItem className="flex flex-row items-start space-x-3 rounded-md p-4 bg-gray-50 w-full border border-gray-200">
                   <FormControl>
                     <Checkbox
                       checked={field.value}
                       onCheckedChange={field.onChange}
+                      className="border-[#1E3A5F] data-[state=checked]:bg-[#1E3A5F] data-[state=checked]:text-[#FBBF24]"
                     />
                   </FormControl>
                   <div className="space-y-1 leading-none">
-                    <FormLabel>Com crédito</FormLabel>
-                    <FormMessage />
+                    <FormLabel className="text-[#1E3A5F] font-semibold">Com crédito</FormLabel>
+                    <FormMessage className="text-red-500" />
                   </div>
                 </FormItem>
               )}
             />
             <Button
               type="submit"
-              className="w-min text-accent"
+              className="w-full bg-[#1E3A5F] hover:bg-[#16304A] text-[#FBBF24] font-semibold py-2 px-4 rounded-xl shadow-lg"
             >
               Enviar
             </Button>

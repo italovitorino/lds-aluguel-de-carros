@@ -7,6 +7,7 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import api from "@/lib/axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const loginSchema = z.object({
   login: z.string().refine(val => val !== "", { message: "Informe um login válido." }),
@@ -14,7 +15,6 @@ const loginSchema = z.object({
 });
 
 export default function FormLogin() {
-
     const router = useRouter()
     const form = useForm<z.infer<typeof loginSchema>>({
         mode: 'onBlur',
@@ -27,7 +27,6 @@ export default function FormLogin() {
 
     const handleSubmit = async () => {
         const data = form.getValues() 
-        console.log(data)
         await api.post("http://localhost:8080/api/login", 
             data,
             {
@@ -37,9 +36,7 @@ export default function FormLogin() {
                 },
             },
         ).then((respose) => {
-            console.log(respose)
             if(respose.status == 200){
-                console.log(respose.data)
                 localStorage.setItem("usuarioId", respose.data)
                 router.push("/pedidos")
             }
@@ -47,54 +44,59 @@ export default function FormLogin() {
     }
 
     return (
-        <>
-            <Form {...form}>
-            <form
-                onSubmit={form.handleSubmit(handleSubmit)}
-                className="flex flex-col justify-center items-center-safe gap-y-4 w-md"
-            >
-                <h1 className="font-bold text-2xl">Bem-Vindo</h1>
-                <FormField
-                control={form.control}
-                name="login"
-                render={({ field }) => (
-                    <FormItem className="align-baseline w-full">
-                    <FormControl>
-                        <Input
-                        value={String(field.value)}
-                        onChange={field.onChange}
-                        placeholder="Login"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <FormField
-                control={form.control}
-                name="senha"
-                render={({ field }) => (
-                    <FormItem className="align-baseline w-full">
-                    <FormControl>
-                        <Input
-                        value={String(field.value)}
-                        onChange={field.onChange}
-                        type="password"
-                        placeholder="Senha"
-                        />
-                    </FormControl>
-                    <FormMessage />
-                    </FormItem>
-                )}
-                />
-                <Button
-                type="submit"
-                className="w-min text-accent"
+        <div className="flex min-h-screen items-center justify-center">
+            <div className="bg-white rounded-2xl shadow-2xl p-10 w-[400px] flex flex-col items-center">
+                <Image src="/logo.png" alt="Logo" width={120} height={120} />
+                <h1 className="font-bold text-3xl text-[#1E3A5F] mt-6">Bem-Vindo</h1>
+                <Form {...form}>
+                <form
+                    onSubmit={form.handleSubmit(handleSubmit)}
+                    className="flex flex-col justify-center items-center gap-y-6 w-full mt-6"
                 >
-                Login
-                </Button>
-            </form>
-            </Form>
-        </>
+                    <FormField
+                    control={form.control}
+                    name="login"
+                    render={({ field }) => (
+                        <FormItem className="w-full">
+                        <FormControl>
+                            <Input
+                            value={String(field.value)}
+                            onChange={field.onChange}
+                            placeholder="Login"
+                            className="rounded-xl border-[#1E3A5F] focus:ring-[#FBBF24]"
+                            />
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                        </FormItem>
+                    )}
+                    />
+                    <FormField
+                    control={form.control}
+                    name="senha"
+                    render={({ field }) => (
+                        <FormItem className="w-full">
+                        <FormControl>
+                            <Input
+                            value={String(field.value)}
+                            onChange={field.onChange}
+                            type="password"
+                            placeholder="Senha"
+                            className="rounded-xl border-[#1E3A5F] focus:ring-[#FBBF24]"
+                            />
+                        </FormControl>
+                        <FormMessage className="text-red-500" />
+                        </FormItem>
+                    )}
+                    />
+                    <Button
+                    type="submit"
+                    className="w-full bg-[#1E3A5F] hover:bg-[#16304A] text-[#FBBF24] font-semibold py-2 px-4 rounded-xl shadow-lg"
+                    >
+                    Login
+                    </Button>
+                </form>
+                </Form>
+            </div>
+        </div>
     );
 }
