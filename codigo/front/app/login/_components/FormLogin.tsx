@@ -96,6 +96,9 @@ export default function FormLogin() {
                     </Button>
                 </form>
                 </Form>
+                <a href="/cadastro" className="mt-4 text-sm text-[#1E3A5F] hover:underline">
+                    Não possui uma conta? Cadastre-se
+                </a>
             </div>
         </div>
     );
