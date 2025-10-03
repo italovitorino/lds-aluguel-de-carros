@@ -30,7 +30,7 @@ O **Front-End** foi hospedado na [Vercel]([https://vercel.com/](https://lds-alug
 
 O projeto foi desenvolvido pelos seguintes membros:  
 
-- Ítalo Vitorino  
+- Ítalo Vitorino Batista Silva
 - Matheus Ferreira Titton  
 - Murilo Andrade Machado  
 
