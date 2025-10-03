@@ -22,7 +22,7 @@ O sistema foi dividido em **Front-End** e **Back-End**, garantindo escalabilidad
 
 ## 🚀 Hospedagem
 
-O **Front-End** foi hospedado na [Vercel]([https://vercel.com/](https://lds-aluguel-de-carros.vercel.app/)), garantindo fácil acesso ao sistema em qualquer lugar.  
+O **Front-End** foi hospedado na [Vercel](https://lds-aluguel-de-carros.vercel.app), garantindo fácil acesso ao sistema em qualquer lugar.  
 
 ---
 
