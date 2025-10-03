@@ -16,7 +16,6 @@ O sistema foi dividido em **Front-End** e **Back-End**, garantindo escalabilidad
 - Realização de reservas de aluguel  
 - Acompanhamento do status das reservas  
 - Painel administrativo para gerenciar clientes, carros e locações  
-- Interface intuitiva e responsiva para facilitar a usabilidade  
 
 ---
 
