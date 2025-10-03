@@ -16,7 +16,7 @@ const cadastroSchema = z
         endereco: z.string().min(5, "Informe um endereço válido.").max(300),
         rg: z.string().min(2).max(14, "RG inválido"),
         cpf: z.string().length(11, "CPF deve ter 11 dígitos"),
-        email: z.string().email("Informe um e-mail válido."),
+        login: z.string().email("Informe um e-mail válido."),
         senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres."),
         confirmarSenha: z.string(),
     })
@@ -37,7 +37,7 @@ export default function FormCadastro() {
             endereco: "",
             rg: "",
             cpf: "",
-            email: "",
+            login: "",
             senha: "",
             confirmarSenha: "",
         },
@@ -127,7 +127,7 @@ export default function FormCadastro() {
                         {/* Email */}
                         <FormField
                             control={form.control}
-                            name="email"
+                            name="login"
                             render={({ field }) => (
                                 <FormItem className="w-full">
                                     <FormControl>
