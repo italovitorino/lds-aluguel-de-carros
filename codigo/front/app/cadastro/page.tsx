@@ -10,14 +10,20 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 // schema de validação
-const cadastroSchema = z.object({
-    nome: z.string().min(3, "Informe um nome válido.").max(100),
-    endereco: z.string().min(5, "Informe um endereço válido.").max(300),
-    rg: z.string().max(14, "RG inválido"),
-    cpf: z.string().length(11, "CPF deve ter 11 dígitos"),
-    email: z.string().email("Informe um e-mail válido."),
-    senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres."),
-});
+const cadastroSchema = z
+    .object({
+        nome: z.string().min(3, "Informe um nome válido.").max(100),
+        endereco: z.string().min(5, "Informe um endereço válido.").max(300),
+        rg: z.string().min(2).max(14, "RG inválido"),
+        cpf: z.string().length(11, "CPF deve ter 11 dígitos"),
+        email: z.string().email("Informe um e-mail válido."),
+        senha: z.string().min(6, "A senha deve ter no mínimo 6 caracteres."),
+        confirmarSenha: z.string(),
+    })
+    .refine((data) => data.senha === data.confirmarSenha, {
+        message: "As senhas não coincidem.",
+        path: ["confirmarSenha"],
+    });
 
 type CadastroForm = z.infer<typeof cadastroSchema>;
 
@@ -33,11 +39,12 @@ export default function FormCadastro() {
             cpf: "",
             email: "",
             senha: "",
+            confirmarSenha: "",
         },
     });
 
     const handleSubmit = async () => {
-        const data = form.getValues();
+        const { confirmarSenha, ...data } = form.getValues(); // tira o confirmarSenha antes do envio
         try {
             const response = await api.post("http://localhost:8080/api/clientes", data, {
                 headers: {
@@ -138,6 +145,19 @@ export default function FormCadastro() {
                                 <FormItem className="w-full">
                                     <FormControl>
                                         <Input {...field} type="password" placeholder="Senha" className="rounded-xl border-[#1E3A5F]" />
+                                    </FormControl>
+                                    <FormMessage className="text-red-500" />
+                                </FormItem>
+                            )}
+                        />
+                        {/* Confirmar Senha */}
+                        <FormField
+                            control={form.control}
+                            name="confirmarSenha"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <FormControl>
+                                        <Input {...field} type="password" placeholder="Confirmar senha" className="rounded-xl border-[#1E3A5F]" />
                                     </FormControl>
                                     <FormMessage className="text-red-500" />
                                 </FormItem>
