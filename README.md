@@ -43,13 +43,5 @@ O projeto foi desenvolvido pelos seguintes membros:
 - TailwindCSS  
 
 ### Back-End
-- Node.js / Express  
-- Banco de dados relacional (MySQL ou PostgreSQL)  
-
----
-
-## 📦 Como Executar Localmente
-
-1. Clone este repositório:  
-   ```bash
-   git clone https://github.com/usuario/repositorio.git
+- Java / Docker  
+- Banco de dados relacional (PostgreSQL)  
